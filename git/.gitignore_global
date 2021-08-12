@@ -1,6 +1,9 @@
 # .gitignore_global
 .DS_Store
 
+# emacs
+.dir-locals.el
+
 # docker
 docker-volumes/
 docker-compose.yml
@@ -8,7 +11,7 @@ docker-compose.yml
 # rails
 dump.rdb
 
-## gtags
+# gtags
 GPATH
 GRTAGS
 GTAGS
