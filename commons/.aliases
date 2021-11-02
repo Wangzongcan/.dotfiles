@@ -11,5 +11,8 @@ alias rspec="be rspec"
 alias ta="tmux attach-session"
 alias tn="tmux -u new -s \$(basename \$PWD)"
 
+# vim
+alias vim="nvim"
+
 # emacs
 alias e="emacsclient -t -a ''"
