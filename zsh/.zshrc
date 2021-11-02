@@ -18,6 +18,7 @@ zinit snippet OMZL::history.zsh
 # asdf
 [[ -f $HOME/.asdf/asdf.sh ]] && source $HOME/.asdf/asdf.sh
 fpath=($HOME/.asdf/completions $fpath)
+[[ $HOME/.asdf/plugins/java/set-java-home.zsh ]] && source $HOME/.asdf/plugins/java/set-java-home.zsh
 
 # fzf
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
