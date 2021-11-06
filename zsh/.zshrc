@@ -5,7 +5,7 @@ source $HOME/.zinit/bin/zinit.zsh
 
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
 
 zinit light zsh-git-prompt/zsh-git-prompt
 ZSH_THEME_GIT_PROMPT_PREFIX=" ("
