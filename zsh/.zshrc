@@ -1,5 +1,5 @@
 # PATH
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/lib:$PATH"
 
 source $HOME/.zinit/bin/zinit.zsh
 
