@@ -7,7 +7,10 @@ function source_file() {
 }
 
 ### Aliases
-alias ls="gls --color=auto"
+if type gls > /dev/null 2>&1; then
+  alias ls="gls"
+fi
+alias ls="ls --color=auto"
 alias l="ls -hl --group-directories-first"
 alias ll="l -a"
 
