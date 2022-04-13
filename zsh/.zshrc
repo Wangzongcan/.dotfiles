@@ -1,45 +1,46 @@
 #!/bin/zsh
 
-### Functions
-function source_file() {
-  local file_path="$1"
-  [[ -f "$file_path" ]] && source "$file_path"
-}
+### Zsh Unplugged
+ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
 
-### Aliases
-if type gls > /dev/null 2>&1; then
-  alias ls="gls"
+if [[ ! -d $ZPLUGINDIR/zsh_unplugged ]]; then
+    git clone --quiet https://github.com/mattmc3/zsh_unplugged $ZPLUGINDIR/zsh_unplugged
 fi
-alias ls="ls --color=auto"
-alias l="ls -hl --group-directories-first"
-alias ll="l -a"
+source $ZPLUGINDIR/zsh_unplugged/zsh_unplugged.plugin.zsh
 
-alias ta="tmux attach-session"
-alias tn="tmux -u new -s \$(basename \$PWD)"
+repos=(
+    zsh-users/zsh-completions
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-syntax-highlighting
 
-alias vim="nvim"
+    zsh-git-prompt/zsh-git-prompt
+    zdharma-continuum/history-search-multi-word
+)
 
-### Zinit
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-source_file "${ZINIT_HOME}/zinit.zsh"
+plugin-load $repos
 
-zinit ice lucid wait='0'
-zinit light zsh-users/zsh-completions
+### Plugin Configuration
+fpath=($ZPLUGINDIR/zsh-completions/src $fpath)
 
-zinit ice lucid wait="0" atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions
-
-zinit ice lucid wait='0' atinit='zpcompinit'
-zinit light zsh-users/zsh-syntax-highlighting
-
-zinit light zdharma-continuum/history-search-multi-word
-
-zinit light zsh-git-prompt/zsh-git-prompt
 ZSH_THEME_GIT_PROMPT_PREFIX=" ("
 ZSH_THEME_GIT_PROMPT_SUFFIX=")"
 PROMPT='%{$fg_bold[red]%}%1~%b$(git_super_status) %{$fg_bold[cyan]%}»%{$reset_color%} '
 
-zinit snippet PZTM::completion
+### Functions
+function source_file() {
+    local file_path="$1"
+    [[ -f "$file_path" ]] && source "$file_path"
+}
+
+### Alias
+if type exa > /dev/null 2>&1; then
+    alias ls="exa --color=always"
+    alias l="ls -l --group-directories-first"
+    alias ll="l -a"
+fi
+
+alias ta="tmux attach-session"
+alias tn="tmux -u new -s \$(basename \$PWD)"
 
 ### ASDF
 source_file $HOME/.asdf/asdf.sh
@@ -49,5 +50,11 @@ source_file $HOME/.asdf/plugins/java/set-java-home.zsh
 ### Localrc
 source_file $HOME/.localrc
 
+### Completion
+setopt MENU_COMPLETE
+setopt AUTO_LIST
+setopt COMPLETE_IN_WORD
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 autoload -Uz compinit; compinit
-zinit cdreplay -q
