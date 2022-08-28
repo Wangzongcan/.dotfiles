@@ -51,9 +51,8 @@ source_file $HOME/.asdf/plugins/java/set-java-home.zsh
 source_file $HOME/.localrc
 
 ### Completion
-setopt MENU_COMPLETE
 setopt AUTO_LIST
-setopt COMPLETE_IN_WORD
+setopt AUTO_MENU
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
