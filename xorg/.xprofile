@@ -2,7 +2,8 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
 
-xset r rate 200 30
+xset r rate 200 20
 
+picom --daemon --config ~/.config/picom.conf &
 feh --bg-fill ~/.wallpapers &
 fcitx5 &
