@@ -56,6 +56,8 @@ fi
 alias ta="tmux attach-session"
 alias tn="tmux -u new -s \$(basename \$PWD)"
 
+alias vim=nvim
+
 ### ASDF
 source_file $HOME/.asdf/asdf.sh
 fpath=($HOME/.asdf/completions $fpath)
