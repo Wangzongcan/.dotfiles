@@ -78,3 +78,6 @@ autoload -Uz compinit; compinit
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
 fi
+
+## Zoxide
+eval "$(zoxide init zsh)"
