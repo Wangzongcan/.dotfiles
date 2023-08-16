@@ -40,6 +40,20 @@ ZSH_THEME_GIT_PROMPT_PREFIX=" ("
 ZSH_THEME_GIT_PROMPT_SUFFIX=")"
 PROMPT='%{$fg_bold[red]%}%1~%b$(git_super_status) %{$fg_bold[cyan]%}»%{$reset_color%} '
 
+### History
+HISTSIZE=10000000
+export SAVEHIST=$HISTSIZE
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+
+### Completion
+setopt AUTO_LIST
+setopt AUTO_MENU
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+autoload -Uz compinit; compinit
+
 ### Functions
 function source_file() {
     local file_path="$1"
@@ -63,17 +77,6 @@ source_file $HOME/.asdf/asdf.sh
 fpath=($HOME/.asdf/completions $fpath)
 source_file $HOME/.asdf/plugins/java/set-java-home.zsh
 
-### Localrc
-source_file $HOME/.localrc
-
-### Completion
-setopt AUTO_LIST
-setopt AUTO_MENU
-
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-autoload -Uz compinit; compinit
-
 ## Emacs
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
@@ -81,3 +84,6 @@ fi
 
 ## Zoxide
 eval "$(zoxide init zsh)"
+
+### Localrc
+source_file $HOME/.localrc
