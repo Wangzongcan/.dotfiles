@@ -22,7 +22,7 @@ function plugin-load {
   done
 }
 
-function plugin-update {
+function plugin-update() {
   ZPLUGINDIR=${ZPLUGINDIR:-$HOME/.config/zsh/plugins}
   for d in $ZPLUGINDIR/*/.git(/); do
     echo "Updating ${d:h:t}..."
@@ -46,7 +46,20 @@ fpath=($ZPLUGINDIR/zsh-completions/src $fpath)
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" ("
 ZSH_THEME_GIT_PROMPT_SUFFIX=")"
-PROMPT='%{$fg_bold[red]%}%1~%b$(git_super_status) %{$fg_bold[cyan]%}»%{$reset_color%} '
+
+function update_prompt() {
+    local base_prompt='%{$fg_bold[red]%}%1~%b$(git_super_status)'
+
+    local proxy_icon=''
+    if [[ -n $http_proxy || -n $https_proxy ]]; then
+        proxy_icon=' %{$fg[green]%}󰖟'
+    fi
+
+    PROMPT="${base_prompt}${proxy_icon} %{$fg_bold[cyan]%}»%{$reset_color%} "
+}
+
+autoload -U add-zsh-hook
+add-zsh-hook precmd update_prompt
 
 ### History
 HISTSIZE=10000000
