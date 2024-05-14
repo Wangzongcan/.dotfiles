@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+## Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 ### Zsh Unplugged
 # declare a simple plugin-load function
 function plugin-load {
@@ -63,6 +66,7 @@ add-zsh-hook precmd update_prompt
 
 ### History
 HISTSIZE=10000000
+HISTFILE=$HOME/.config/zsh/.zsh_history
 export SAVEHIST=$HISTSIZE
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
@@ -82,29 +86,24 @@ function source_file() {
 }
 
 ### Alias
-if type exa > /dev/null 2>&1; then
-    alias ls="exa --color=always"
+if type eza > /dev/null 2>&1; then
+    alias ls="eza --color=always"
     alias l="ls -l --group-directories-first"
     alias ll="l -a"
 fi
 
 alias ta="tmux attach-session"
-alias tn="tmux -u new -s \$(basename \$PWD)"
+alias tn="tmux -u -f $HOME/.config/tmux/.tmux.conf new -s \$(basename \$PWD)"
 
 alias vim=nvim
 
-### ASDF
-source_file $HOME/.asdf/asdf.sh
-fpath=($HOME/.asdf/completions $fpath)
-source_file $HOME/.asdf/plugins/java/set-java-home.zsh
+### Mise
+eval "$(~/.local/bin/mise activate zsh)"
 
-## Emacs
+### Emacs
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
 fi
-
-## Zoxide
-eval "$(zoxide init zsh)"
 
 ### Localrc
 source_file $HOME/.localrc
