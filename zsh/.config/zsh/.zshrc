@@ -63,6 +63,7 @@ add-zsh-hook precmd update_prompt
 
 ### History
 HISTSIZE=10000000
+HISTFILE=$ZDOTDIR/.zsh_history
 export SAVEHIST=$HISTSIZE
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
@@ -80,6 +81,9 @@ function source_file() {
     local file_path="$1"
     [[ -f "$file_path" ]] && source "$file_path"
 }
+
+### Darwin
+[[ "$(uname)" == "Darwin" ]] && source_file $ZDOTDIR/.zshrc_darwin
 
 ### Alias
 if type exa > /dev/null 2>&1; then
