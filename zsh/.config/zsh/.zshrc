@@ -102,7 +102,7 @@ source_file $HOME/.asdf/asdf.sh
 fpath=($HOME/.asdf/completions $fpath)
 source_file $HOME/.asdf/plugins/java/set-java-home.zsh
 
-## Emacs
+### Emacs
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
 fi
