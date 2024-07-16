@@ -97,9 +97,6 @@ alias tn="tmux -u -f $HOME/.config/tmux/.tmux.conf new -s \$(basename \$PWD)"
 
 alias vim=nvim
 
-### Mise
-eval "$(~/.local/bin/mise activate zsh)"
-
 ### Emacs
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
