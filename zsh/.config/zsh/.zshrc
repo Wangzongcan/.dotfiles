@@ -110,5 +110,8 @@ fi
 ## Zoxide
 eval "$(zoxide init zsh)"
 
+### fzf
+source <(fzf --zsh)
+
 ### Localrc
 source_file $HOME/.localrc
