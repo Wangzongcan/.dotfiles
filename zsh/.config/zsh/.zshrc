@@ -86,8 +86,8 @@ function source_file() {
 [[ "$(uname)" == "Darwin" ]] && source_file $ZDOTDIR/.zshrc_darwin
 
 ### Alias
-if type exa > /dev/null 2>&1; then
-    alias ls="exa --color=always"
+if type eza > /dev/null 2>&1; then
+    alias ls="eza --color=always"
     alias l="ls -l --group-directories-first"
     alias ll="l -a"
 fi
