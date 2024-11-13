@@ -110,6 +110,8 @@ fi
 ## Zoxide
 eval "$(zoxide init zsh)"
 
+eval "$(~/.local/bin/mise activate zsh)"
+
 ### fzf
 source <(fzf --zsh)
 
