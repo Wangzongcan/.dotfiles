@@ -63,7 +63,7 @@ add-zsh-hook precmd update_prompt
 
 ### History
 HISTSIZE=10000000
-HISTFILE=$ZDOTDIR/.zsh_history
+HISTFILE=$HOME/.local/share/zsh/zsh_history
 export SAVEHIST=$HISTSIZE
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
@@ -80,6 +80,14 @@ autoload -Uz compinit; compinit
 function source_file() {
     local file_path="$1"
     [[ -f "$file_path" ]] && source "$file_path"
+}
+
+function clear_history() {
+  local hist_file="${HISTFILE:-$HOME/.zsh_history}"
+  history -p
+  echo -n > "$hist_file"
+
+  fc -R
 }
 
 ### Darwin
