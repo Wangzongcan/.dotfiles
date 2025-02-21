@@ -83,7 +83,9 @@ function source_file() {
 }
 
 ### Darwin
-[[ "$(uname)" == "Darwin" ]] && source_file $ZDOTDIR/.zshrc_darwin
+if [[ "$(uname)" == "Darwin" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 ### Alias
 if type eza > /dev/null 2>&1; then
@@ -97,23 +99,13 @@ alias tn="tmux -u new -s \$(basename \$PWD)"
 
 alias vim=nvim
 
-### ASDF
-source_file $HOME/.asdf/asdf.sh
-fpath=($HOME/.asdf/completions $fpath)
-source_file $HOME/.asdf/plugins/java/set-java-home.zsh
-
 ### Emacs
 if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
     alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
 fi
 
-## Zoxide
-eval "$(zoxide init zsh)"
-
+### Mise
 eval "$(~/.local/bin/mise activate zsh)"
-
-### fzf
-source <(fzf --zsh)
 
 ### Localrc
 source_file $HOME/.localrc
