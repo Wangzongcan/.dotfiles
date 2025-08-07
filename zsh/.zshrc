@@ -115,5 +115,8 @@ fi
 ### Mise
 eval "$(~/.local/bin/mise activate zsh)"
 
+### Zoxide
+eval "$(zoxide init zsh)"
+
 ### Localrc
 source_file $HOME/.localrc
