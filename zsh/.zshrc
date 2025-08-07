@@ -67,6 +67,7 @@ HISTFILE=$HOME/.local/share/zsh/zsh_history
 export SAVEHIST=$HISTSIZE
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
+setopt APPEND_HISTORY INC_APPEND_HISTORY SHARE_HISTORY
 
 ### Completion
 setopt AUTO_LIST
