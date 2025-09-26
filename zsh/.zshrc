@@ -99,7 +99,7 @@ fi
 ### Alias
 if type eza > /dev/null 2>&1; then
     alias ls="eza --color=always"
-    alias l="ls -l --group-directories-first"
+    alias l="ls -l --group-directories-first --icons=auto"
     alias ll="l -a"
 fi
 
