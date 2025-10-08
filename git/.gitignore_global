@@ -4,6 +4,9 @@
 # emacs
 .dir-locals.el
 
+# vscode
+.vscode
+
 # docker
 docker-volumes/
 docker-compose.yml
@@ -21,3 +24,5 @@ GTAGS
 
 # project
 .project/
+
+.claude/
