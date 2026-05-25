@@ -91,10 +91,11 @@ function clear_history() {
   fc -R
 }
 
-### Darwin
-if [[ "$(uname)" == "Darwin" ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+### Platform-specific
+case "$(uname -s)" in
+  Darwin) source_file $HOME/.zshrc.darwin ;;
+  Linux)  source_file $HOME/.zshrc.linux  ;;
+esac
 
 ### Alias
 if type eza > /dev/null 2>&1; then
