@@ -4,7 +4,7 @@
 # declare a simple plugin-load function
 function plugin-load {
   local repo plugdir initfile
-  ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
+  ZPLUGINDIR=${ZPLUGINDIR:-${${ZDOTDIR:#$HOME}:-$HOME/.config/zsh}/plugins}
   for repo in $@; do
     plugdir=$ZPLUGINDIR/${repo:t}
     initfile=$plugdir/${repo:t}.plugin.zsh
@@ -23,7 +23,7 @@ function plugin-load {
 }
 
 function plugin-update() {
-  ZPLUGINDIR=${ZPLUGINDIR:-$HOME/.config/zsh/plugins}
+  ZPLUGINDIR=${ZPLUGINDIR:-${${ZDOTDIR:#$HOME}:-$HOME/.config/zsh}/plugins}
   for d in $ZPLUGINDIR/*/.git(/); do
     echo "Updating ${d:h:t}..."
     command git -C "${d:h}" pull --ff --recurse-submodules --depth 1 --rebase --autostash
