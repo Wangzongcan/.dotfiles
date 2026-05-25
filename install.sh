@@ -21,11 +21,12 @@ fi
 
 COMMON=(git tmux zsh ruby)
 DARWIN_ONLY=(hammerspoon)
-LINUX_ONLY=(fontconfig)
+LINUX_ONLY=(fontconfig hypr)
 
 # Per-package stow target. Packages not listed default to $HOME.
 declare -A TARGETS=(
   [fontconfig]="$HOME/.config"
+  [hypr]="$HOME/.config"
 )
 
 ACTION="${1:-install}"
