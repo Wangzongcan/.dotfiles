@@ -26,7 +26,6 @@ Scope {
     }
 
     function show() {
-        root.query = "";
         root.showing = true;
     }
     function hide() {
@@ -59,7 +58,10 @@ Scope {
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
         WlrLayershell.layer: WlrLayer.Overlay
 
-        onVisibleChanged: if (visible) Qt.callLater(() => searchBox.forceActiveFocus())
+        onVisibleChanged: if (visible) {
+            searchBox.clear();
+            Qt.callLater(() => searchBox.forceActiveFocus());
+        }
 
         Rectangle {
             anchors.fill: parent
@@ -104,6 +106,17 @@ Scope {
                         Keys.onEnterPressed: list.launchCurrent()
                         Keys.onDownPressed: list.incrementCurrentIndex()
                         Keys.onUpPressed: list.decrementCurrentIndex()
+                        Keys.onPressed: (event) => {
+                            if (event.modifiers & Qt.ControlModifier) {
+                                if (event.key === Qt.Key_N || event.key === Qt.Key_J) {
+                                    list.incrementCurrentIndex();
+                                    event.accepted = true;
+                                } else if (event.key === Qt.Key_P || event.key === Qt.Key_K) {
+                                    list.decrementCurrentIndex();
+                                    event.accepted = true;
+                                }
+                            }
+                        }
                     }
                 }
 
