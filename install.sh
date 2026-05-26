@@ -43,8 +43,8 @@ esac
 
 packages=("${COMMON[@]}")
 case "$OS" in
-  darwin) packages+=("${DARWIN_ONLY[@]}") ;;
-  linux)  packages+=("${LINUX_ONLY[@]}") ;;
+  darwin) packages+=("${DARWIN_ONLY[@]}"); STOW_FLAGS+=(--ignore='\.linux$')  ;;
+  linux)  packages+=("${LINUX_ONLY[@]}");  STOW_FLAGS+=(--ignore='\.darwin$') ;;
 esac
 
 failed=0

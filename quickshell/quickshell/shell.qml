@@ -1,3 +1,5 @@
+//@ pragma IconTheme Adwaita
+
 import Quickshell
 
 Scope {
@@ -6,6 +8,8 @@ Scope {
     Wallpaper { id: wallpaper }
 
     Lock { wallpaperPath: wallpaper.currentPath }
+
+    Launcher {}
 
     Variants {
         model: Quickshell.screens

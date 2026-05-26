@@ -115,7 +115,7 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
 fi
 
 ### Mise
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 
 ### Zoxide
 eval "$(zoxide init zsh)"
