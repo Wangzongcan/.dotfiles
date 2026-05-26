@@ -48,11 +48,11 @@ Scope {
         screen: Quickshell.primaryScreen
 
         anchors.top: true
-        margins.top: 200
+        anchors.bottom: true
+        anchors.left: true
+        anchors.right: true
         exclusionMode: ExclusionMode.Ignore
 
-        implicitWidth: 600
-        implicitHeight: 480
         color: "transparent"
 
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -63,12 +63,23 @@ Scope {
             Qt.callLater(() => searchBox.forceActiveFocus());
         }
 
-        Rectangle {
+        MouseArea {
             anchors.fill: parent
+            onClicked: root.hide()
+        }
+
+        Rectangle {
+            width: 600
+            height: 480
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 200
             color: Theme.bgColor
             radius: 12
             border.color: Theme.border
             border.width: 1
+
+            MouseArea { anchors.fill: parent }
 
             Column {
                 anchors.fill: parent
@@ -108,10 +119,10 @@ Scope {
                         Keys.onUpPressed: list.decrementCurrentIndex()
                         Keys.onPressed: (event) => {
                             if (event.modifiers & Qt.ControlModifier) {
-                                if (event.key === Qt.Key_N || event.key === Qt.Key_J) {
+                                if (event.key === Qt.Key_N) {
                                     list.incrementCurrentIndex();
                                     event.accepted = true;
-                                } else if (event.key === Qt.Key_P || event.key === Qt.Key_K) {
+                                } else if (event.key === Qt.Key_P) {
                                     list.decrementCurrentIndex();
                                     event.accepted = true;
                                 }
