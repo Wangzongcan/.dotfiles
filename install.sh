@@ -19,16 +19,9 @@ if ! command -v stow >/dev/null 2>&1; then
   exit 1
 fi
 
-COMMON=(git tmux zsh ruby)
+COMMON=(git tmux zsh ruby nvim)
 DARWIN_ONLY=(hammerspoon)
 LINUX_ONLY=(fontconfig hypr quickshell)
-
-# Per-package stow target. Packages not listed default to $HOME.
-declare -A TARGETS=(
-  [fontconfig]="$HOME/.config"
-  [hypr]="$HOME/.config"
-  [quickshell]="$HOME/.config"
-)
 
 ACTION="${1:-install}"
 case "$ACTION" in
@@ -49,12 +42,8 @@ esac
 
 failed=0
 for pkg in "${packages[@]}"; do
-  target="${TARGETS[$pkg]:-$HOME}"
-  if [[ "$ACTION" != "uninstall" ]]; then
-    mkdir -p "$target"
-  fi
-  echo "==> $ACTION $pkg → $target"
-  if ! stow "${STOW_FLAGS[@]}" -t "$target" "$pkg"; then
+  echo "==> $ACTION $pkg → $HOME"
+  if ! stow "${STOW_FLAGS[@]}" -t "$HOME" "$pkg"; then
     failed=1
     echo "    failed: $pkg" >&2
   fi
