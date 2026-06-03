@@ -32,11 +32,19 @@ Item {
         monitorQuery.running = true;
     }
 
+    Connections {
+        target: bar
+        function onCloseAllPopups() {
+            root.popupOpen = false;
+        }
+    }
+
     function toggle() {
         if (popupOpen) {
             popupOpen = false;
             return;
         }
+        bar.closeAllPopups();
         refreshMonitors();
         const pos = mapToItem(bar.contentItem, width, 0);
         anchorRight = pos.x;

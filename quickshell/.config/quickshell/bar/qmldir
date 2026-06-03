@@ -2,6 +2,7 @@ Workspaces 1.0 Workspaces.qml
 TrayButton 1.0 TrayButton.qml
 DisplayButton 1.0 DisplayButton.qml
 VolumeButton 1.0 VolumeButton.qml
+BluetoothButton 1.0 BluetoothButton.qml
 ThemeButton 1.0 ThemeButton.qml
 PowerButton 1.0 PowerButton.qml
 Clock 1.0 Clock.qml

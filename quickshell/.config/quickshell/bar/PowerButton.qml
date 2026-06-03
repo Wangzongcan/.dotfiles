@@ -19,11 +19,19 @@ Item {
         { key: "poweroff",  label: "Power off", icon: "⏻", cmd: ["systemctl", "poweroff"] },
     ]
 
+    Connections {
+        target: bar
+        function onCloseAllPopups() {
+            root.popupOpen = false;
+        }
+    }
+
     function toggle() {
         if (popupOpen) {
             popupOpen = false;
             return;
         }
+        bar.closeAllPopups();
         const pos = mapToItem(bar.contentItem, width, 0);
         anchorRight = pos.x;
         popupOpen = true;
@@ -47,44 +55,32 @@ Item {
         onClicked: root.toggle()
     }
 
-    PanelWindow {
+    PopupWindow {
         id: popup
-        screen: root.bar.screen
 
         readonly property int rowHeight: 30
         readonly property int popupWidth: 200
         readonly property int popupHeight: root.actions.length * rowHeight + 8
 
-        visible: root.popupOpen || container.opacity > 0.01
+        visible: root.popupOpen
 
-        anchors { top: true; left: true; right: true; bottom: true }
-        exclusiveZone: -1
-        color: "transparent"
-        WlrLayershell.layer: WlrLayershell.Top
-        WlrLayershell.keyboardFocus: WlrLayershell.None
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: root.popupOpen = false
+        anchor {
+            window: root.bar
+            rect.x: root.anchorRight - popup.popupWidth
+            rect.y: root.bar.height + 2
         }
+
+        implicitWidth: popup.popupWidth
+        implicitHeight: popup.popupHeight
+        color: "transparent"
 
         Rectangle {
             id: container
-            width: popup.popupWidth
-            height: popup.popupHeight
-            x: root.anchorRight - width
-            y: root.bar.height + 2
+            anchors.fill: parent
             color: Theme.bgColor
             border.color: Theme.border
             border.width: 1
             radius: 6
-
-            opacity: root.popupOpen ? 1 : 0
-            scale: root.popupOpen ? 1 : 0.92
-            transformOrigin: Item.Top
-
-            Behavior on opacity { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
-            Behavior on scale   { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
             MouseArea { anchors.fill: parent }
 

@@ -13,20 +13,29 @@ Item {
     property real listAnchorRight: 0
 
     property var menuItem: null
-    property real menuAnchorRight: 0
+    property real menuAnchorLeft: 0
+
+    Connections {
+        target: bar
+        function onCloseAllPopups() {
+            root.listOpen = false;
+            root.menuItem = null;
+        }
+    }
 
     function toggleList() {
         if (listOpen) {
             listOpen = false;
             return;
         }
+        bar.closeAllPopups();
         const pos = mapToItem(bar.contentItem, width, 0);
         listAnchorRight = pos.x;
         menuItem = null;
         listOpen = true;
     }
 
-    function activateItem(item) {
+    function activateItem(item, iconIdx) {
         if (!item.hasMenu) {
             item.activate();
             listOpen = false;
@@ -36,7 +45,11 @@ Item {
             menuItem = null;
             return;
         }
-        menuAnchorRight = listAnchorRight;
+        var itemCount = SystemTray.items.values.length;
+        var totalWidth = itemCount * 18 + (itemCount - 1) * 10;
+        var leftPadding = (listPanel.popupWidth - totalWidth) / 2;
+        var iconX = leftPadding + (iconIdx != null ? iconIdx : 0) * 28;
+        menuAnchorLeft = (listAnchorRight - listPanel.popupWidth) + iconX;
         menuItem = item;
     }
 
@@ -84,45 +97,37 @@ Item {
             : 100
         readonly property int popupHeight: 30
 
-        visible: root.listOpen || container.opacity > 0.01
+        visible: root.listOpen
 
-        anchors {
-            top: true
-            left: true
-            right: true
-            bottom: true
-        }
+        anchors { top: true; left: true; right: true; bottom: true }
         exclusiveZone: -1
         color: "transparent"
-        WlrLayershell.layer: WlrLayershell.Top
+        WlrLayershell.layer: WlrLayershell.Overlay
         WlrLayershell.keyboardFocus: WlrLayershell.None
 
         MouseArea {
             anchors.fill: parent
-            onClicked: root.listOpen = false
+            z: 0
+            onClicked: {
+                if (root.menuItem != null) {
+                    root.menuItem = null;
+                } else {
+                    root.listOpen = false;
+                }
+            }
         }
 
         Rectangle {
             id: container
             width: listPanel.popupWidth
             height: listPanel.popupHeight
-            x: root.listAnchorRight - width
+            x: root.listAnchorRight - listPanel.popupWidth
             y: root.bar.height + 2
+            z: 1
             color: Theme.bgColor
             border.color: Theme.border
             border.width: 1
             radius: 6
-
-            opacity: root.listOpen ? 1 : 0
-            scale: root.listOpen ? 1 : 0.92
-            transformOrigin: Item.Top
-
-            Behavior on opacity {
-                NumberAnimation { duration: 120; easing.type: Easing.OutCubic }
-            }
-            Behavior on scale {
-                NumberAnimation { duration: 120; easing.type: Easing.OutCubic }
-            }
 
             Row {
                 anchors.verticalCenter: parent.verticalCenter
@@ -154,7 +159,14 @@ Item {
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton | Qt.RightButton
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: (mouse) => root.activateItem(parent.modelData)
+                            onClicked: (mouse) => {
+                                var items = SystemTray.items.values;
+                                var idx = 0;
+                                for (var i = 0; i < items.length; i++) {
+                                    if (items[i] === parent.modelData) { idx = i; break; }
+                                }
+                                root.activateItem(parent.modelData, idx);
+                            }
                             onWheel: (wheel) => parent.modelData.scroll(wheel.angleDelta.y, false)
                         }
                     }
@@ -172,22 +184,27 @@ Item {
         }
     }
 
-    PopupWindow {
+    PanelWindow {
         id: menuPopup
+        screen: root.bar.screen
 
         readonly property var item: root.menuItem
 
         visible: item !== null
 
-        anchor {
-            window: root.bar
-            rect.x: root.menuAnchorRight - menuPopup.width
-            rect.y: root.bar.height
-        }
-
-        implicitWidth: 220
-        implicitHeight: menuBg.implicitHeight
+        anchors { top: true; left: true; right: true; bottom: true }
+        exclusiveZone: -1
         color: "transparent"
+        WlrLayershell.layer: WlrLayershell.Overlay
+        WlrLayershell.keyboardFocus: WlrLayershell.None
+
+        MouseArea {
+            anchors.fill: parent
+            z: 0
+            onClicked: {
+                root.menuItem = null;
+            }
+        }
 
         QsMenuOpener {
             id: menuOpener
@@ -196,7 +213,11 @@ Item {
 
         Rectangle {
             id: menuBg
-            anchors.fill: parent
+            width: 220
+            height: menuBg.implicitHeight
+            x: root.menuAnchorLeft
+            y: root.bar.height + 2 + listPanel.popupHeight + 4
+            z: 1
             color: Theme.bgColor
             border.color: Theme.border
             border.width: 1

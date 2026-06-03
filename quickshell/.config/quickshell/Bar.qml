@@ -8,6 +8,8 @@ PanelWindow {
     required property var modelData
     screen: modelData
 
+    signal closeAllPopups()
+
     anchors {
         top: true
         left: true
@@ -32,6 +34,7 @@ PanelWindow {
         TrayButton    { bar: bar; anchors.verticalCenter: parent.verticalCenter }
         DisplayButton { bar: bar; anchors.verticalCenter: parent.verticalCenter }
         VolumeButton  { bar: bar; anchors.verticalCenter: parent.verticalCenter }
+        BluetoothButton { bar: bar; anchors.verticalCenter: parent.verticalCenter }
         ThemeButton   { bar: bar; anchors.verticalCenter: parent.verticalCenter }
         PowerButton   { bar: bar; anchors.verticalCenter: parent.verticalCenter }
         Clock         { anchors.verticalCenter: parent.verticalCenter }
