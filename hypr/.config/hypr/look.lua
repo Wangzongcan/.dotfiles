@@ -48,6 +48,7 @@ hl.config({
         force_default_wallpaper = -1,
         disable_hyprland_logo   = false,
     },
+
 })
 
 -- https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
