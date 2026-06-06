@@ -19,7 +19,7 @@ if ! command -v stow >/dev/null 2>&1; then
   exit 1
 fi
 
-COMMON=(git tmux zsh ruby nvim)
+COMMON=(git lazygit tmux zsh ruby nvim)
 DARWIN_ONLY=(hammerspoon)
 LINUX_ONLY=(fontconfig hypr quickshell)
 

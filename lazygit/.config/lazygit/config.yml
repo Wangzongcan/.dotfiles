@@ -1,0 +1,38 @@
+# Lazygit Configuration
+# See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
+gui:
+  showIcons: true
+  mouseEvents: true
+  skipRewordInEditorWarning: true
+  expandFocusedSidePanel: true
+  theme:
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - white
+    optionsTextColor:
+      - blue
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
+  commit:
+    signOff: false
+  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --
+# Custom pull request URLs
+# Lazygit will prompt "Create pull request?" after pushing.
+# For GitHub/GitLab/Bitbucket, auto-detection works out of the box.
+# For custom/on-premises services, configure them here:
+services:
+  "github.com": "github:github.com"
+keybinding:
+  universal:
+    quit: q
+    return: <esc>
+  files:
+    commitChanges: c
+  branches:
+    createPullRequest: o
+    viewPullRequestOptions: O
