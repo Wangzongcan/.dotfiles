@@ -105,28 +105,37 @@ Item {
         onClicked: root.toggle()
     }
 
-    PopupWindow {
+    readonly property int popupWidth: 280
+
+    PanelWindow {
         id: popup
+        screen: root.bar.screen
+
         visible: root.popupOpen
 
-        anchor {
-            window: root.bar
-            rect.x: root.anchorRight - popup.width
-            rect.y: root.bar.height
-        }
-
-        implicitWidth: 280
-        implicitHeight: bg.implicitHeight
+        anchors { top: true; left: true; right: true; bottom: true }
+        exclusiveZone: -1
         color: "transparent"
+        WlrLayershell.layer: WlrLayershell.Overlay
+        WlrLayershell.keyboardFocus: WlrLayershell.None
+
+        MouseArea {
+            anchors.fill: parent
+            z: 0
+            onClicked: root.popupOpen = false
+        }
 
         Rectangle {
             id: bg
-            anchors.fill: parent
+            width: root.popupWidth
+            height: col.implicitHeight + 12
+            x: root.anchorRight - root.popupWidth
+            y: root.bar.height + 2
+            z: 1
             color: Theme.bgColor
             border.color: Theme.border
             border.width: 1
             radius: 6
-            implicitHeight: col.implicitHeight + 12
 
             Column {
                 id: col

@@ -24,6 +24,12 @@ QtObject {
         applyHyprland();
     }
 
+    function setDark(d) {
+        root.dark = d;
+        applySystem();
+        applyHyprland();
+    }
+
     function applySystem() {
         const scheme = root.dark ? "prefer-dark" : "prefer-light";
         const gtk = root.dark ? "Adwaita-dark" : "Adwaita";

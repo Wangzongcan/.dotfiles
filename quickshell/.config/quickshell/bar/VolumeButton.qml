@@ -78,37 +78,42 @@ Item {
         }
     }
 
-    PopupWindow {
-        id: popup
+    readonly property int popupWidth: 300
+    readonly property int sinkRowHeight: 26
+    readonly property int sliderRowHeight: 36
+    readonly property int popupHeight: root.audioSinks.length * sinkRowHeight
+        + (root.audioSinks.length > 0 ? 1 : 0)
+        + sliderRowHeight + 8
 
-        readonly property int popupWidth: 300
-        readonly property int sinkRowHeight: 26
-        readonly property int sliderRowHeight: 36
-        readonly property int popupHeight: root.audioSinks.length * sinkRowHeight
-            + (root.audioSinks.length > 0 ? 1 : 0)
-            + sliderRowHeight + 8
+    PanelWindow {
+        id: popup
+        screen: root.bar.screen
 
         visible: root.popupOpen
 
-        anchor {
-            window: root.bar
-            rect.x: root.anchorRight - popup.popupWidth
-            rect.y: root.bar.height + 2
-        }
-
-        implicitWidth: popup.popupWidth
-        implicitHeight: popup.popupHeight
+        anchors { top: true; left: true; right: true; bottom: true }
+        exclusiveZone: -1
         color: "transparent"
+        WlrLayershell.layer: WlrLayershell.Overlay
+        WlrLayershell.keyboardFocus: WlrLayershell.None
+
+        MouseArea {
+            anchors.fill: parent
+            z: 0
+            onClicked: root.popupOpen = false
+        }
 
         Rectangle {
             id: container
-            anchors.fill: parent
+            width: root.popupWidth
+            height: root.popupHeight
+            x: root.anchorRight - root.popupWidth
+            y: root.bar.height + 2
+            z: 1
             color: Theme.bgColor
             border.color: Theme.border
             border.width: 1
             radius: 6
-
-            MouseArea { anchors.fill: parent }
 
             Column {
                 anchors.fill: parent
@@ -122,7 +127,7 @@ Item {
                         required property var modelData
                         readonly property bool isActive: root.sink && modelData.id === root.sink.id
                         width: parent.width
-                        height: popup.sinkRowHeight
+                        height: root.sinkRowHeight
 
                         Rectangle {
                             anchors.fill: parent
@@ -181,7 +186,7 @@ Item {
 
                 Item {
                     width: parent.width
-                    height: popup.sliderRowHeight
+                    height: root.sliderRowHeight
 
                     Item {
                         id: muteBtn
