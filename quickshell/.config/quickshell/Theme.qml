@@ -9,7 +9,7 @@ QtObject {
     property bool dark: true
 
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
-    readonly property int fontSize: 12
+    readonly property int fontSize: 14
 
     readonly property color bgColor:     dark ? "#1a1b26" : "#e1e2e7"
     readonly property color fgColor:     dark ? "#c0caf5" : "#3760bf"
