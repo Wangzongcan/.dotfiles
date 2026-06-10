@@ -49,7 +49,13 @@ Item {
         var totalWidth = itemCount * 18 + (itemCount - 1) * 10;
         var leftPadding = (listPanel.popupWidth - totalWidth) / 2;
         var iconX = leftPadding + (iconIdx != null ? iconIdx : 0) * 28;
-        menuAnchorLeft = (listAnchorRight - listPanel.popupWidth) + iconX;
+        var anchor = (listAnchorRight - listPanel.popupWidth) + iconX;
+        var menuWidth = 220;
+        var screenWidth = bar.screen.width;
+        if (anchor + menuWidth > screenWidth - 4) {
+            anchor = Math.max(4, anchor - menuWidth);
+        }
+        menuAnchorLeft = anchor;
         menuItem = item;
     }
 
