@@ -6,7 +6,7 @@ import QtQuick
 Scope {
     id: root
 
-    property string wallpaperDir: Quickshell.env("HOME") + "/Pictures/wallpapers/omarchy/tokyo-night"
+    property string wallpaperDir: Quickshell.env("HOME") + "/Pictures/wallpapers"
     property var wallpapers: []
     property int currentIndex: 0
     property string currentPath: wallpapers.length > 0 ? wallpaperDir + "/" + wallpapers[currentIndex] : ""
@@ -38,7 +38,7 @@ Scope {
     Process {
         id: scanProc
         command: ["bash", "-c",
-            "find \"$DIR\" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \\) -printf '%f\\n' | sort"
+            "find \"$DIR\" -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \\) -printf '%P\\n' | sort"
         ]
         environment: ({ "DIR": root.wallpaperDir })
         running: false
