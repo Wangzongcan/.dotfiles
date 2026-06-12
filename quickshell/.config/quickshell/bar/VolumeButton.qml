@@ -132,29 +132,45 @@ Item {
                         Rectangle {
                             anchors.fill: parent
                             radius: 4
-                            color: sinkArea.containsMouse
-                                ? Qt.lighter(Theme.bgColor, 1.7)
-                                : (parent.isActive ? Qt.lighter(Theme.bgColor, 1.4) : "transparent")
+                            color: parent.isActive
+                                ? Qt.lighter(Theme.bgColor, 1.4) : "transparent"
                         }
 
                         Row {
                             anchors.fill: parent
-                            anchors.leftMargin: 8
+                            anchors.leftMargin: 4
                             anchors.rightMargin: 8
-                            spacing: 8
+                            spacing: 4
 
-                            Text {
+                            RadioButton {
+                                id: radioBtn
                                 anchors.verticalCenter: parent.verticalCenter
-                                width: 14
-                                text: parent.parent.isActive ? "" : ""
-                                color: parent.parent.isActive ? Theme.accentColor : Qt.darker(Theme.fgColor, 1.5)
-                                font.pixelSize: Theme.fontSize
-                                font.family: Theme.fontFamily
+                                checked: parent.parent.isActive
+                                onClicked: Pipewire.preferredDefaultAudioSink = parent.parent.modelData
+
+                                indicator: Rectangle {
+                                    implicitWidth: 16
+                                    implicitHeight: 16
+                                    x: radioBtn.leftPadding
+                                    y: parent.height / 2 - height / 2
+                                    radius: 8
+                                    color: "transparent"
+                                    border.color: radioBtn.checked ? Theme.accentColor : Qt.darker(Theme.fgColor, 1.5)
+                                    border.width: 2
+
+                                    Rectangle {
+                                        anchors.centerIn: parent
+                                        width: 8
+                                        height: 8
+                                        radius: 4
+                                        color: radioBtn.checked ? Theme.accentColor : "transparent"
+                                    }
+                                }
                             }
 
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
-                                width: parent.width - 14 - 8
+                                width: parent.width - 16 - 4 - 8
                                 text: parent.parent.modelData.description || parent.parent.modelData.nickname || parent.parent.modelData.name
                                 color: Theme.fgColor
                                 opacity: parent.parent.isActive ? 1.0 : 0.85
@@ -162,16 +178,6 @@ Item {
                                 font.family: Theme.fontFamily
                                 font.bold: parent.parent.isActive
                                 elide: Text.ElideRight
-                            }
-                        }
-
-                        MouseArea {
-                            id: sinkArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                Pipewire.preferredDefaultAudioSink = parent.modelData;
                             }
                         }
                     }

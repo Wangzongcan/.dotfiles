@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import ".."
@@ -96,47 +97,56 @@ Item {
                 anchors.margins: 4
                 spacing: 0
 
-                Item {
+                RowLayout {
                     width: parent.width
                     height: root.rowHeight
+                    spacing: 10
 
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: 4
-                        color: modeArea.containsMouse
-                            ? Qt.lighter(Theme.bgColor, 1.7)
-                            : "transparent"
+                    Text {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.leftMargin: 10
+                        Layout.preferredWidth: 16
+                        text: Theme.dark ? "󰖔" : "󰖨"
+                        color: Theme.fgColor
+                        font.pixelSize: Theme.fontSize + 2
+                        font.family: Theme.fontFamily
                     }
 
-                    Row {
-                        anchors.fill: parent
-                        anchors.leftMargin: 10
-                        spacing: 10
-
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 16
-                            text: Theme.dark ? "󰖔" : "󰖨"
-                            color: Theme.fgColor
-                            font.pixelSize: Theme.fontSize + 2
-                            font.family: Theme.fontFamily
-                        }
-
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: Theme.dark ? "Dark Mode" : "Light Mode"
-                            color: Theme.fgColor
-                            font.pixelSize: Theme.fontSize
-                            font.family: Theme.fontFamily
-                        }
+                    Text {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: "Dark Mode"
+                        color: Theme.fgColor
+                        font.pixelSize: Theme.fontSize
+                        font.family: Theme.fontFamily
                     }
 
-                    MouseArea {
-                        id: modeArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
+                    Item { Layout.fillWidth: true }
+
+                    Switch {
+                        id: themeSwitch
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.rightMargin: 10
+                        checked: Theme.dark
                         onClicked: Theme.toggle()
+
+                        indicator: Rectangle {
+                            implicitWidth: 32
+                            implicitHeight: 18
+                            x: themeSwitch.leftPadding
+                            y: parent.height / 2 - height / 2
+                            radius: 9
+                            color: themeSwitch.checked ? Theme.accentColor : Theme.border
+
+                            Rectangle {
+                                x: themeSwitch.checked ? parent.width - width : 0
+                                y: 2
+                                width: 14
+                                height: 14
+                                radius: 7
+                                color: Theme.fgColor
+                                Behavior on x { NumberAnimation { duration: 100 } }
+                            }
+                        }
                     }
                 }
 
