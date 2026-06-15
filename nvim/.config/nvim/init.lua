@@ -58,11 +58,20 @@ require('mini.surround').setup({
 })
 require('mini.icons').setup()
 
+
+
 local global_lsp = vim.lsp.enable
 vim.lsp.enable({ 'lua_ls', 'ts_ls' })
 
--- snacks.nvim (picker, notifier, etc.)
+-- snacks.nvim (dashboard, picker, notifier, etc.)
 require('snacks').setup({
+  dashboard = {
+    enabled = true,
+    sections = {
+      { section = "header" },
+      { section = "keys", gap = 1, padding = 1 },
+    },
+  },
   picker = { enabled = true },
   notifier = { enabled = true },
   indent = { enabled = true },
