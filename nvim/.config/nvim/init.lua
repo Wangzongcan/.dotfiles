@@ -90,6 +90,24 @@ local proj_root = function()
   return vim.fs.root(0, { '.git', 'Makefile', 'package.json', 'Cargo.toml', 'pyproject.toml', 'go.mod', 'CMakeLists.txt', 'composer.json' })
 end
 
+-- emacs-style cursor movement in insert mode
+map('i', '<C-a>', '<Home>', { silent = true, desc = 'cursor line start' })
+map('i', '<C-b>', '<Left>', { silent = true, desc = 'cursor left' })
+map('i', '<C-e>', '<End>', { silent = true, desc = 'cursor line end' })
+map('i', '<C-f>', '<Right>', { silent = true, desc = 'cursor right' })
+map('i', '<C-p>', function()
+  if vim.fn.pumvisible() == 1 then
+    return '<C-p>'
+  end
+  return '<Up>'
+end, { expr = true, silent = true, desc = 'cursor up' })
+map('i', '<C-n>', function()
+  if vim.fn.pumvisible() == 1 then
+    return '<C-n>'
+  end
+  return '<Down>'
+end, { expr = true, silent = true, desc = 'cursor down' })
+
 -- snacks picker keymaps
 map('n', '<leader>ff', function() Snacks.picker.files() end, opts)
 map('n', '<leader>fg', function() Snacks.picker.grep() end, opts)
