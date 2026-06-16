@@ -18,7 +18,7 @@ opt.swapfile = false
 opt.backup = false
 opt.signcolumn = 'yes'
 opt.updatetime = 250
-opt.timeoutlen = 300
+opt.timeoutlen = 500
 
 vim.api.nvim_create_autocmd('PackChanged', {
   callback = function(ev)
@@ -33,6 +33,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
 vim.pack.add({
   'https://github.com/echasnovski/mini.nvim',
   'https://github.com/folke/tokyonight.nvim',
+  'https://github.com/folke/which-key.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/folke/snacks.nvim',
@@ -57,6 +58,14 @@ require('mini.surround').setup({
   },
 })
 require('mini.icons').setup()
+require('which-key').setup({
+  preset = 'helix',
+  spec = {
+    { '<leader>f', group = 'file/find' },
+    { '<leader>p', group = 'project' },
+    { '<leader>s', group = 'search' },
+  },
+})
 
 
 
@@ -109,25 +118,29 @@ map('i', '<C-n>', function()
 end, { expr = true, silent = true, desc = 'cursor down' })
 
 -- snacks picker keymaps
-map('n', '<leader>ff', function() Snacks.picker.files() end, opts)
-map('n', '<leader>fg', function() Snacks.picker.grep() end, opts)
-map('n', '<leader>fr', function() Snacks.picker.recent() end, opts)
-map('n', '<leader>fb', function() Snacks.picker.buffers() end, opts)
-map('n', '<leader>f/', function() Snacks.picker.grep_buffers() end, opts)
-map('n', '<leader>:', function() Snacks.picker.commands() end, opts)
-map('n', '<leader>fk', function() Snacks.picker.keymaps() end, opts)
+map('n', '<leader>ff', function() Snacks.picker.files() end, { silent = true, desc = 'Find files' })
+map('n', '<leader>fg', function() Snacks.picker.grep() end, { silent = true, desc = 'Grep files' })
+map('n', '<leader>fr', function() Snacks.picker.recent() end, { silent = true, desc = 'Recent files' })
+map('n', '<leader>fb', function() Snacks.picker.buffers() end, { silent = true, desc = 'Find buffers' })
+map('n', '<leader>f/', function() Snacks.picker.grep_buffers() end, { silent = true, desc = 'Grep open buffers' })
+map('n', '<leader>:', function() Snacks.picker.commands() end, { silent = true, desc = 'Command palette' })
+map('n', '<leader>fk', function() Snacks.picker.keymaps() end, { silent = true, desc = 'Find keymaps' })
 
 -- project keymaps (p prefix)
-map('n', '<leader>pp', function() Snacks.picker.projects() end, opts)
-map('n', '<leader>pf', function() Snacks.picker.files({ cwd = proj_root() }) end, opts)
-map('n', '<leader>pg', function() Snacks.picker.grep({ cwd = proj_root() }) end, opts)
-map('n', '<leader>pb', function() Snacks.picker.buffers({ cwd = proj_root() }) end, opts)
-map('n', '<leader>pr', function() Snacks.picker.recent({ cwd = proj_root() }) end, opts)
+map('n', '<leader>pp', function() Snacks.picker.projects() end, { silent = true, desc = 'Switch project' })
+map('n', '<leader>pf', function() Snacks.picker.files({ cwd = proj_root() }) end, { silent = true, desc = 'Project files' })
+map('n', '<leader>pg', function() Snacks.picker.grep({ cwd = proj_root() }) end, { silent = true, desc = 'Project grep' })
+map('n', '<leader>pb', function() Snacks.picker.buffers({ cwd = proj_root() }) end, { silent = true, desc = 'Project buffers' })
+map('n', '<leader>pr', function() Snacks.picker.recent({ cwd = proj_root() }) end, { silent = true, desc = 'Project recent files' })
 
 -- grug-far.nvim (search & replace across files)
 map({'n', 'x'}, '<leader>sr', function()
   require('grug-far').open({ transient = true })
-end, opts)
+end, { silent = true, desc = 'Search and replace' })
+
+map('n', '<leader>?', function()
+  require('which-key').show({ global = false })
+end, { silent = true, desc = 'Buffer keymaps' })
 
 -- vim-surround style bindings (powered by mini.surround)
 local get_char = function()
@@ -163,4 +176,3 @@ map('x', 'S', function()
   vim.o.operatorfunc = 'v:lua.MiniSurround.add'
   return 'g@'
 end, { expr = true, desc = 'surround: add (visual)' })
-
