@@ -12,6 +12,7 @@ hl.bind(mod .. " + SHIFT + B",  hl.dsp.exec_cmd(programs.browser_private))
 hl.bind(mod .. " + Q",         hl.dsp.window.close())
 hl.bind(mod .. " + V",         hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mod .. " + P",         hl.dsp.window.pseudo())
+hl.bind(mod .. " + F",         hl.dsp.window.fullscreen())
 hl.bind(mod .. " + backslash", hl.dsp.layout("togglesplit"))    -- dwindle only
 
 -- Session
