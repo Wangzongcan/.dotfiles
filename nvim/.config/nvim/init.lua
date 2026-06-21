@@ -81,7 +81,16 @@ require('snacks').setup({
       { section = "keys", gap = 1, padding = 1 },
     },
   },
-  picker = { enabled = true },
+  picker = {
+    enabled = true,
+    win = {
+      input = {
+        keys = {
+          ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+        },
+      },
+    },
+  },
   notifier = { enabled = true },
   indent = { enabled = true },
   input = { enabled = true },
