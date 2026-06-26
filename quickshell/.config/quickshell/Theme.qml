@@ -33,7 +33,7 @@ QtObject {
 
     function apply() {
         applySystem();
-        applyHyprland();
+        applyCompositor();
         applyApps();
     }
 
@@ -46,13 +46,10 @@ QtObject {
         ]);
     }
 
-    function applyHyprland() {
+    function applyCompositor() {
         const active = root.dark ? "0xff7aa2f7" : "0xff2e7de9";
         const inactive = root.dark ? "0xaa414868" : "0xaaa8aecb";
-        Quickshell.execDetached(["sh", "-c",
-            "hyprctl keyword general:col.active_border '" + active + "' 2>/dev/null"
-            + " && hyprctl keyword general:col.inactive_border '" + inactive + "' 2>/dev/null"
-        ]);
+        Compositor.applyTheme(active, inactive);
     }
 
     function applyApps() {
@@ -67,17 +64,12 @@ QtObject {
                 if (!root._initialized) {
                     root.dark = (this.text || "").indexOf("light") < 0;
                 }
-                root.applyHyprland();
+                root.applyCompositor();
             }
         }
     }
 
     Component.onCompleted: {
-        Quickshell.execDetached(["sh", "-c",
-            "pgrep -x xdg-desktop-portal >/dev/null 2>&1"
-            + " || /usr/lib/xdg-desktop-portal &>/dev/null &"
-            + " systemctl --user start xdg-desktop-portal-gtk xdg-desktop-portal-hyprland 2>/dev/null;"
-            + " true"
-        ]);
+        Compositor.startPortals();
     }
 }

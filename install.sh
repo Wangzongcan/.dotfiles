@@ -21,7 +21,7 @@ fi
 
 COMMON=(git lazygit tmux zsh ruby nvim)
 DARWIN_ONLY=(hammerspoon)
-LINUX_ONLY=(fontconfig hypr quickshell)
+LINUX_ONLY=(fontconfig hypr quickshell niri chrome)
 
 ACTION="${1:-install}"
 case "$ACTION" in

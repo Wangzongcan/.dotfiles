@@ -13,7 +13,7 @@ Item {
 
     readonly property var actions: [
         { key: "lock",      label: "Lock",      icon: "󰌾", cmd: ["qs", "ipc", "call", "lock", "lock"] },
-        { key: "logout",    label: "Log out",   icon: "󰗽", cmd: ["hyprctl", "eval", "hl.dispatch(hl.dsp.exit())"] },
+        { key: "logout",    label: "Log out",   icon: "󰗽", cmd: Compositor.logoutCommand() },
         { key: "suspend",   label: "Suspend",   icon: "󰒲", cmd: ["systemctl", "suspend"] },
         { key: "reboot",    label: "Reboot",    icon: "󰜉", cmd: ["systemctl", "reboot"] },
         { key: "poweroff",  label: "Power off", icon: "⏻", cmd: ["systemctl", "poweroff"] },
